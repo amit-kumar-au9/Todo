@@ -8,28 +8,28 @@ const reducer = (state, action) => {
         case 'ADD_TASK':
             return{
                 ...state, 
-                tasks: [...state.tasks, action.payload]
+                tasks: [action.payload,...state.tasks]
             }
         case 'REMOVE_TASK':
             {
-                const new_tasks = state.tasks.filter(function(item) {
-                    return item !== action.payload;
-                });
+                const index = action.payload
                 return{
                     ...state,
-                    tasks: new_tasks
+                    tasks: [...state.tasks.slice(0, index),
+                        ...state.tasks.slice(index + 1)]
                 }
             }
-            case 'EDIT_TASK':
-                {
-                    const new_tasks = state.tasks.filter(function(item) {
-                        return item !== action.previous_task_value;
-                    });
-                    return {
-                        ...state,
-                        tasks: [...new_tasks, action.updated_task_value]
-                    }
+        case 'EDIT_TASK':
+            {   
+                const new_value = action.payload.new_value
+                const index = action.payload.task_idx
+                return{
+                    ...state,
+                    tasks: [...state.tasks.slice(0, index),
+                        new_value,
+                        ...state.tasks.slice(index + 1)]
                 }
+            }
         default:
             return state
     }

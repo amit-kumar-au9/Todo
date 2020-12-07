@@ -7,7 +7,6 @@ import '../css/index.css'
 
 class Index extends React.Component{
     render(){
-        console.log(this.props.tasks)
         return(
             <>  
                 <Navbar/>
@@ -16,7 +15,7 @@ class Index extends React.Component{
                     {
                         this.props.tasks.map((task,idx) => {
                             return (
-                                <TaskCard task_value={task} key={idx}/>
+                                <TaskCard task_value={task} key={idx} id={idx}/>
                                 )
                             })
                         }

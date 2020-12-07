@@ -3,61 +3,35 @@ import {connect} from 'react-redux'
 import '../css/taskcard.css'
 
 class Task_Card extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      task: this.props.task_value
-    }
-  }
 
-  popTasks = (task) => {
+  popTasks = () => {
     this.props.dispatch({
       type: 'REMOVE_TASK',
-      payload: task
+      payload: this.props.id
     })
   }
 
-  editTasks = (prv_value, new_value) => {
+  editTasks = (e) => {
+    
     this.props.dispatch({
       type: 'EDIT_TASK',
-      previous_task_value: prv_value,
-      updated_task_value: new_value
-    })
-    
-    this.setState({
-      task: new_value
-    })
-  }
-  
-  onChangeHandler = (e) => {
-    this.setState({
-        task: e.target.value
+      payload:{ task_idx: this.props.id, new_value: e.target.value }
     })
   }
   
   render(){
     return(
-      <div className="card-inside" key={this.props.key}>
-        <textarea className="taskCard_input" value={this.state.task} onChange ={this.onChangeHandler}>{this.state.task}</textarea>
-        <button 
-          className="task-button text-white btn bg-success" 
-          onClick={() => this.editTasks(this.props.task_value, this.state.task)}>
-            <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </button>
-        <button 
-          className="task-button btn btn-danger" 
-          onClick={() => this.popTasks(this.props.task_value)}>
-            <i className="fa fa-trash" aria-hidden="true"></i>
-        </button>
-      </div>
+      <>
+        <div className="card-inside">
+          <i className="task-button fa fa-times text-danger" onClick={this.popTasks} aria-hidden="true"></i>
+          <textarea className="taskCard_input" value={this.props.task_value} onChange={this.editTasks}>
+            {this.props.task_value}
+          </textarea>
+        <p className="hide text-light bg-dark">Make changes and save it directly.</p>
+        </div>
+      </>
     )
   }
 }
 
-const mapStateToProps = (state) =>{
-  return {
-    tasks : state.tasks
-  }
-}
-
-export default connect(mapStateToProps)(Task_Card);
+export default connect()(Task_Card);
