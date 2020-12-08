@@ -12,7 +12,6 @@ class Task_Card extends React.Component{
   }
 
   editTasks = (e) => {
-    
     this.props.dispatch({
       type: 'EDIT_TASK',
       payload:{ task_idx: this.props.id, new_value: e.target.value }
@@ -23,7 +22,7 @@ class Task_Card extends React.Component{
     return(
       <>
         <div className="card-inside">
-          <i className="task-button fa fa-times text-danger" onClick={this.popTasks} aria-hidden="true"></i>
+          <i className="task-button fa fa-times" onClick={this.popTasks} aria-hidden="true"></i>
           <textarea className="taskCard_input" value={this.props.task_value} onChange={this.editTasks}>
             {this.props.task_value}
           </textarea>
